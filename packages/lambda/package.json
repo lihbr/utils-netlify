@@ -20,5 +20,8 @@
     "type": "git",
     "url": "ssh://git@github.com/lihbr/utils-netlify.git",
     "directory": "packages/lambda"
+  },
+  "dependencies": {
+    "statuses": "2.0.0"
   }
 }
