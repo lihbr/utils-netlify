@@ -1,2 +1,7 @@
-console.log("Hello World");
-console.log("Hello World 2");
+const isNetlify = require("./isNetlify");
+const getFinalDeployUrl = require("./getFinalDeployUrl");
+
+module.exports = {
+  isNetlify,
+  getFinalDeployUrl
+};
