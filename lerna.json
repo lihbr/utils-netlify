@@ -11,7 +11,7 @@
     },
     "version": {
       "allowBranch": "master",
-      "message": "chore(release): %v"
+      "message": "chore(release): publish new version"
     }
   }
 }
