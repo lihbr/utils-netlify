@@ -1,6 +1,6 @@
 {
   "name": "@lihbr/utils-netlify.ci",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "lihbr utils for Netlify",
   "author": "lihbr <hello@lihbr.com> (https://lihbr.com)",
   "license": "MIT",
