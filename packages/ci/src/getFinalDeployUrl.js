@@ -20,8 +20,7 @@ const getFinalDeployUrl = ({ branchDomains = [] }) => {
 
     // Everything else gets prime URL
     default:
-      process.env.APP_URL = process.env.DEPLOY_PRIME_URL;
-      break;
+      return process.env.DEPLOY_PRIME_URL;
   }
 };
 
