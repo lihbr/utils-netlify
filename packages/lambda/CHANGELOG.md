@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.lambda@0.1.1...@lihbr/utils-netlify.lambda@0.1.2) (2020-10-10)
+
+
+### Bug Fixes
+
+* **lambda:** wrong file name for error class ([8120bdb](https://github.com/lihbr/utils-netlify/commit/8120bdb85f2c4f055874fc3dfcd02ee849a568e6))
+
+
+
+
+
 ## [0.1.1](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.lambda@0.1.0...@lihbr/utils-netlify.lambda@0.1.1) (2020-09-30)
 
 
