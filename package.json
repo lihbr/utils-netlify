@@ -1,7 +1,7 @@
 {
   "name": "utils-netlify",
   "description": "lihbr utils for Netlify",
-  "private": "true",
+  "private": true,
   "author": "lihbr <hello@lihbr.com> (https://lihbr.com)",
   "license": "MIT",
   "scripts": {
