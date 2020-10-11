@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.lambda@0.1.2...@lihbr/utils-netlify.lambda@0.2.0) (2020-10-11)
+
+
+### Features
+
+* **lambda:** allow custom message for formatted response ([ee62009](https://github.com/lihbr/utils-netlify/commit/ee620092b5557c757b692f26fa2a8def084551bb))
+
+
+
+
+
 ## [0.1.2](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.lambda@0.1.1...@lihbr/utils-netlify.lambda@0.1.2) (2020-10-10)
 
 
