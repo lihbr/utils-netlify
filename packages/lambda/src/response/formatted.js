@@ -4,17 +4,25 @@ const { json } = require("./raw");
 /**
  * Send a Google style formatted JSON response
  * @param {Number} status - response status
+ * @param {String} msg - response message
  * @param {Object} data - response body data if success
  * @param {Object} error - response body error if error
  * @param {Object} headers - response headers
  * @return {Object} - response object
  */
-const base = ({ status, data = {}, error = {}, headers = {} } = {}) => {
-  let msg;
-  try {
-    msg = statuses(status);
-  } catch (err) {
-    msg = "unknown";
+const base = ({
+  status,
+  msg = "",
+  data = {},
+  error = {},
+  headers = {}
+} = {}) => {
+  if (!msg) {
+    try {
+      msg = statuses(status);
+    } catch (err) {
+      msg = "unknown";
+    }
   }
 
   const body = { status, msg: msg.replace(/\.$/, "").toLowerCase() };
@@ -31,6 +39,7 @@ const base = ({ status, data = {}, error = {}, headers = {} } = {}) => {
 /**
  * Send a Google style formatted JSON success response
  * @param {Number} status - response status
+ * @param {String} msg - response message
  * @param {Object} data - response body data if success
  * @param {Object} headers - response headers
  * @return {Object} - response object
@@ -42,6 +51,7 @@ const success = ({ status = 200, msg, data, headers } = {}) => {
 /**
  * Send a Google style formatted JSON error response
  * @param {Number} status - response status
+ * @param {String} msg - response message
  * @param {Object} error - response body error if error
  * @param {Object} headers - response headers
  * @return {Object} - response object
