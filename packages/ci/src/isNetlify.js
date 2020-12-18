@@ -1,6 +1,6 @@
 /**
  * Check for Netlify
- * @return {Boolean} - true if is Netlify
+ * @return {Boolean} - true if on Netlify
  */
 const isNetlify = () => process.env.NETLIFY;
 
