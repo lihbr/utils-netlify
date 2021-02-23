@@ -22,6 +22,6 @@
     "directory": "packages/lambda"
   },
   "dependencies": {
-    "statuses": "2.0.0"
+    "statuses": "2.0.1"
   }
 }
