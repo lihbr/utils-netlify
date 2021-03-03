@@ -118,4 +118,4 @@ const APP_URL = ci.getFinalDeployUrl({ branchDomains: ["staging"] });
 
 ## Example
 
-You can check out a full example usage of this helper across this [Nuxt.js](https://nuxtjs.org) configuration file: [nuxt.config.js](https://github.com/lihbr/lihbr-apex/blob/master/packages/core/nuxt.config.js), search for `ci.`
+You can check out a full example usage of these utils across this [Nuxt.js](https://nuxtjs.org) configuration file: [nuxt.config.js](https://github.com/lihbr/lihbr-apex/blob/master/packages/core/nuxt.config.js), search for `ci.`
