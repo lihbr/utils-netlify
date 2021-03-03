@@ -1,0 +1,125 @@
+code[class*="language-"],
+pre[class*="language-"] {
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  color: #fff7f7;
+  background: #292222;
+  font-family: Roboto Mono, monospace;
+  font-size: 1em;
+  line-height: 1.5em;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+code[class*="language-"]::-moz-selection,
+pre[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection,
+pre[class*="language-"] ::-moz-selection {
+  background: #292222;
+}
+
+code[class*="language-"]::selection,
+pre[class*="language-"]::selection,
+code[class*="language-"] ::selection,
+pre[class*="language-"] ::selection {
+  background: #292222;
+}
+
+:not(pre) > code[class*="language-"] {
+  white-space: normal;
+  border-radius: 0.2em;
+  padding: 0.1em;
+}
+
+pre[class*="language-"] {
+  overflow: auto;
+  position: relative;
+  margin: 0.5em 0;
+  padding: 1.25em 1em;
+}
+
+.language-css > code,
+.language-sass > code,
+.language-scss > code {
+  color: #f27502;
+}
+
+[class*="language-"] .namespace {
+  opacity: 0.7;
+}
+
+/* Theme */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #806b6b;
+}
+
+.token.boolean,
+.token.number {
+  color: #c3687c;
+}
+
+.token.property,
+.token.tag,
+.token.symbol,
+.token.deleted,
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable,
+.token.atrule,
+.token.class-name,
+.token.keyword {
+  color: #e84311;
+}
+
+.token.constant {
+  color: #ff612f;
+}
+
+.token.parameter {
+  color: #f27502;
+}
+
+.token.string,
+.token.attr-value,
+.token.regex,
+.token.important {
+  color: #ffb005;
+}
+
+.token.punctuation {
+  color: #ffce23;
+}
+
+.token.selector,
+.token.attr-name,
+.token.char,
+.token.builtin,
+.token.inserted,
+.token.function {
+  color: #93bd71;
+}
+
+.token.important,
+.token.bold {
+  font-style: 700;
+}
+
+.token.italic {
+  font-style: italic;
+}

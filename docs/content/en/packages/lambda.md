@@ -1,0 +1,449 @@
+---
+title: "lambda"
+menuTitle: "lambda"
+subtitle: ""
+badge: ""
+description: "lihbr utils for Netlify"
+position: 220
+category: "Packages"
+version: 0.2
+fullscreen: false
+features:
+  - "Route requests easily"
+  - "Rate-limit low-risk endpoints with no overhead"
+  - "Send consistent responses"
+---
+
+`@lihbr/utils-netlify.lambda` provides utils for [Netlify Functions](https://docs.netlify.com/functions/overview).
+
+## Features
+
+<list :items="features"></list>
+
+## Installation
+
+<alert type="info">
+
+Make sure you checked [prerequisites](/prerequisites) before proceeding to installation~
+
+</alert>
+
+Add `@lihbr/utils-netlify.lambda` dependency to your project:
+
+<code-group>
+  <code-block label="Yarn" active>
+
+```bash
+yarn add @lihbr/utils-netlify.lambda
+```
+
+  </code-block>
+  <code-block label="npm">
+
+```bash
+npm install @lihbr/utils-netlify.lambda
+```
+
+  </code-block>
+</code-group>
+
+That's it!
+
+## Usage
+
+Just import the module inside your build script:
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+```
+<!-- prettier-ignore-end -->
+
+## Reference
+
+### HttpError(status)
+
+**status**
+
+- Type: `Number`
+- Default: `500`
+
+A helper class to throw better HTTP error.
+
+<!-- prettier-ignore-start -->
+```javascript
+try {
+  throw new HttpError(401);
+} catch (error) {
+  console.log(error.message); // Unauthorized
+  console.log(error.status); // 401
+}
+```
+<!-- prettier-ignore-end -->
+
+### request
+
+#### route(event, context, callback, controller)
+
+**event**
+
+- Netlify event object
+- Type: `Object`
+- `required`
+
+**context**
+
+- Netlify context object
+- Type: `Object`
+- `required`
+
+**callback**
+
+- Netlify callback function
+- Type: `Function`
+- `required`
+
+**controller**
+
+- A controller object, see example
+- Type: `Object`
+- `required`
+
+> `event`, `context`, `callback` are [provided by Netlify](https://docs.netlify.com/functions/build-with-javascript/#synchronous-function-format), the [`callback` parameter](https://answers.netlify.com/t/support-guide-how-do-i-write-a-javascript-lambda-function/24106) is used to mitigate an inconsistency that happens when using an `async` handler directly ([more info](https://answers.netlify.com/t/send-response-before-stopping-function/5016)). However with `route`, your function handlers can still be asynchronous, no worries!
+
+The route function takes care of routing incoming requests to appropriate handlers depending on the request method. This allows to easily have a [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) capable function.
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    const data = await getDummyRecords();
+
+    return { statusCode: 200, body: data };
+  },
+  POST: async (event, context) => {
+    await createDummyRecord(event.body);
+
+    return { statusCode: 201, body: "" };
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+The above controller will handler `GET` and `POST` request. A `405 Method Not Allowed` response will be returned if another method is used.
+
+#### throttle(event, namespace, timeout)
+
+**event**
+
+- Netlify event object
+- Type: `Object`
+- `required`
+
+**namespace**
+
+- A namespace to use for throttling
+- Type: `String`
+- Default: `default`
+
+**timeout**
+
+- Throttle timeout, seconds
+- Type: `Number`
+- Default: `60`
+
+The throttle function uses an [in-memory rate-limiting method](https://lihbr.com/blog/rate-limiting-without-overhead-netlify-or-vercel-functions) to provide a simple way to prevent spams on low-risk endpoints using the client IP address. The function throws an [HttpError](#httperrorstatus) instance when throttling.
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  POST: async (event, context) => {
+    try {
+      lambda.request.throttle(event, "dummy", 20);
+    } catch (err) {
+      return { status: 429, body: "" }; // Too Many Requests
+    }
+
+    await createDummyRecord(event.body);
+
+    return { statusCode: 201, body: "" };
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+The above will return a `429 Too Many Requests` response if a client calls this function twice within a 20 seconds time frame.
+
+### response
+
+The response object contains a lot of methods to send formatted responses.
+
+#### raw
+
+**plain({ status = 200, body = "", headers = {} })**
+
+Returns a plain text response with given status and headers.
+
+**html({ status = 200, body = "", headers = {} })**
+
+Returns an HTML response with given status and headers.
+
+**json({ status = 200, body = {}, headers = {} })**
+
+Returns a JSON response with given status and headers, also takes care of turning the supplied body argument into JSON string.
+
+<code-group>
+  <code-block label="plain" active>
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.raw.plain({
+      status: 200,
+      body = "Hello World",
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 200,
+     *   body: "Hello World",
+     *   headers: { foo: "bar" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+  <code-block label="html">
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.raw.html({
+      status: 401,
+      body = "<div>Hello World</div>",
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 401,
+     *   body: "Hello World",
+     *   headers: { foo: "bar", "content-type": "text/html; charset=UTF-8" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+  <code-block label="json">
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.raw.json({
+      status: 404,
+      body = { message: "Hello World" },
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 404,
+     *   body: "{ \"message\": \"Hello World\" }",
+     *   headers: { foo: "bar", "content-type": "application/json" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+</code-group>
+
+#### formatted
+
+**base({ status, msg = "", data = {}, error = {}, headers = {} })**
+
+Returns a Google style formatted JSON response. Low-level function used by the following `success` and `error` function.
+
+**success({ status, msg = "", data = {}, headers = {} })**
+
+Returns a Google style formatted JSON success response.
+
+**error({ status, msg = "", error = {}, headers = {} })**
+
+Returns a Google style formatted JSON error response.
+
+> In all functions, omitting `msg` will have it defaulting to the according status definition, see examples. Either way, `msg` will be transformed to lowercase.
+
+<code-group>
+  <code-block label="success" active>
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.formatted.success({
+      status: 200,
+      data: { message: "Hello World" }
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 200,
+     *   body: "{
+     *     \"status\": 200,
+     *     \"msg\": \"ok\",
+     *     \"data\": { \"message\": \"Hello World\" }
+     *   }",
+     *   headers: { foo: "bar", "content-type": "application/json" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+  <code-block label="error">
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.formatted.error({
+      status: 401,
+      msg: "Not Connected"
+      data: { message: "Oh No" }
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 401,
+     *   body: "{
+     *     \"status\": 401,
+     *     \"msg\": \"not connected\",
+     *     \"error\": { \"message\": \"Oh No\" }
+     *   }",
+     *   headers: { foo: "bar", "content-type": "application/json" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+</code-group>
+
+#### special
+
+**empty({ status = 200, headers = {} })**
+
+Returns an empty response with given status and headers.
+
+**redirect({ status = 302, href, headers = {} })**
+
+Redirect client to provided href location.
+
+<code-group>
+  <code-block label="empty" active>
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.special.empty({
+      status: 404,
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 404,
+     *   body: "",
+     *   headers: { foo: "bar" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+  <code-block label="redirect">
+
+<!-- prettier-ignore-start -->
+```javascript
+const lambda = require("@lihbr/utils-netlify.lambda");
+
+const controller = {
+  GET: async (event, context) => {
+    return lambda.response.special.redirect({
+      status: 301,
+      href = "https://example.com",
+      headers = { foo: "bar" }
+    });
+    /**
+     * {
+     *   statusCode: 301,
+     *   body: "",
+     *   headers: { foo: "bar", "location": "https://example.com" }
+     * }
+     */
+  }
+}
+
+exports.handler = (event, context, callback) =>
+  lambda.request.route(event, context, callback, controller);
+```
+<!-- prettier-ignore-end -->
+
+  </code-block>
+</code-group>
