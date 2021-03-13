@@ -1,11 +1,14 @@
 {
   "title": "lihbr/utils-netlify",
+  "description": "lihbr utils for Netlify",
   "url": "https://utils-netlify.lihbr.com",
   "logo": {
     "light": "/logo-light.svg",
     "dark": "/logo-dark.svg"
   },
-  "github": "lihbr/utils-netlify",
-  "defaultBranch": "master",
-  "twitter": "li_hbr"
+  "github": {
+    "repo": "lihbr/utils-netlify",
+    "branch": "master"
+  },
+  "twitter": "@li_hbr"
 }
