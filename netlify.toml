@@ -52,3 +52,9 @@
   to = "https://utils-netlify.lihbr.com/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "https://utils-netlify.lucie.red/*"
+  to = "https://utils-netlify.lihbr.com/:splat"
+  status = 301
+  force = true
