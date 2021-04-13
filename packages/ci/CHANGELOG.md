@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.ci@0.2.0...@lihbr/utils-netlify.ci@0.2.1) (2021-04-13)
+
+**Note:** Version bump only for package @lihbr/utils-netlify.ci
+
+
+
+
+
 # [0.2.0](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.ci@0.1.1...@lihbr/utils-netlify.ci@0.2.0) (2020-12-18)
 
 
