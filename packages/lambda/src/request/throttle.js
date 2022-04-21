@@ -3,10 +3,16 @@ const HttpError = require("../HttpError");
 const memoryCache = {};
 
 const throttle = (event, namespace = "default", timeout = 60) => {
-  if (!event.headers || !event.headers["client-ip"]) {
+  const ip = (event.headers
+    ? event.headers["x-forwarded-for"] ||
+      event.headers["x-nf-client-connection-ip"] ||
+      event.headers["client-ip"]
+    : ""
+  ).split(", ")[0];
+
+  if (!ip) {
     throw new HttpError(400);
   } else {
-    const ip = event.headers["client-ip"];
     const now = Date.now();
 
     if (!memoryCache[namespace]) {
