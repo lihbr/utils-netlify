@@ -1,6 +1,6 @@
 {
   "name": "@lihbr/utils-netlify.lambda",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "lihbr utils for Netlify",
   "author": "Lucie Haberer <hello@lihbr.com> (https://lihbr.com)",
   "license": "MIT",

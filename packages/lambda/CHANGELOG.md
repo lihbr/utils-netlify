@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.lambda@0.2.2...@lihbr/utils-netlify.lambda@0.2.3) (2022-04-21)
+
+
+### Bug Fixes
+
+* **lambda:** use fallbacks to resolve ips ([4095fc8](https://github.com/lihbr/utils-netlify/commit/4095fc8949fea6fffb49dd4ab4b815fd4e9cb391))
+
+
+
+
+
 ## [0.2.2](https://github.com/lihbr/utils-netlify/compare/@lihbr/utils-netlify.lambda@0.2.1...@lihbr/utils-netlify.lambda@0.2.2) (2021-04-13)
 
 **Note:** Version bump only for package @lihbr/utils-netlify.lambda
